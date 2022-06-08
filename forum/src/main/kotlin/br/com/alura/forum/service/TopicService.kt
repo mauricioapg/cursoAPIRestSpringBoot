@@ -7,65 +7,50 @@ import br.com.alura.forum.exceptions.NotFoundException
 import br.com.alura.forum.mapper.TopicFormMapper
 import br.com.alura.forum.mapper.TopicViewMapper
 import br.com.alura.forum.model.Topic
+import br.com.alura.forum.repository.TopicRepository
 import org.springframework.stereotype.Service
 import java.util.stream.Collectors
 import kotlin.collections.ArrayList
 
 @Service
 class TopicService(
-        private var topics: List<Topic> = ArrayList(),
+        private val repository: TopicRepository,
         private var topicViewMapper: TopicViewMapper,
         private var topicFormMapper: TopicFormMapper,
         private val notFoundExceptionMessage: String = "Tópico não encontrado") {
 
     fun listAll(): List<TopicView> {
-        return topics.stream().map {
+        return repository.findAll().stream().map {
             t -> topicViewMapper.map(t)
         }.collect(Collectors.toList())
     }
 
     fun listById(id: Long): TopicView {
-        val topic = topics.stream().filter { t ->
-            t.id == id
-        }.findFirst().orElseThrow{
+        val topic = repository.findById(id).orElseThrow{
             NotFoundException(notFoundExceptionMessage)
         }
         return topicViewMapper.map(topic)
     }
 
     fun create(form: TopicForm): TopicView {
+        println("criando tópico")
         val topic = topicFormMapper.map(form)
-        topic.id = topics.size.toLong() + 1
-        topics = topics.plus(topic)
+        repository.save(topic)
         return topicViewMapper.map(topic)
     }
 
     fun update(form: UpdateTopicForm, id: Long): TopicView {
-        val topic = topics.stream().filter { t ->
-            t.id == id
-        }.findFirst().orElseThrow{
+        println("atualizando tópico")
+        val topic = repository.findById(id).orElseThrow{
             NotFoundException(notFoundExceptionMessage)
         }
-        val topicUpdated = Topic(
-                id = id,
-                title = form.title,
-                message = form.message,
-                author = topic.author,
-                course = topic.course,
-                answers = topic.answers,
-                status = topic.status,
-                dateCreate = topic.dateCreate
-        )
-        topics = topics.minus(topic).plus(topicUpdated)
-        return topicViewMapper.map(topicUpdated)
+        topic.title = form.title
+        topic.message = form.message
+        return topicViewMapper.map(topic)
     }
 
     fun delete(id: Long) {
-        val topic = topics.stream().filter { t ->
-            t.id == id
-        }.findFirst().orElseThrow{
-            NotFoundException(notFoundExceptionMessage)
-        }
-        topics = topics.minus(topic)
+        println("excluindo tópico")
+        repository.deleteById(id)
     }
 }

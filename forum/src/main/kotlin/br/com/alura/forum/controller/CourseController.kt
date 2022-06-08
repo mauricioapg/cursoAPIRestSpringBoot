@@ -4,6 +4,7 @@ import br.com.alura.forum.dto.CourseForm
 import br.com.alura.forum.model.Course
 import br.com.alura.forum.service.CourseService
 import org.springframework.web.bind.annotation.*
+import javax.transaction.Transactional
 
 @RestController
 @RequestMapping("/courses")
@@ -20,6 +21,7 @@ class CourseController(private val service: CourseService) {
     }
 
     @PostMapping
+    @Transactional
     fun create(@RequestBody dto: CourseForm){
         service.create(dto)
     }

@@ -4,6 +4,7 @@ import br.com.alura.forum.model.User
 import br.com.alura.forum.service.UserService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import javax.transaction.Transactional
 
 @RestController
 @RequestMapping("/users")
@@ -20,6 +21,7 @@ class UserController(private val service: UserService) {
     }
 
     @PostMapping
+    @Transactional
     fun create(@RequestBody user: User){
         service.create(user)
     }

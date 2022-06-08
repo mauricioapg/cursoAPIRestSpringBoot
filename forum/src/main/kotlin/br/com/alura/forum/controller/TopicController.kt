@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.util.UriComponentsBuilder
+import javax.transaction.Transactional
 import javax.validation.Valid
 
 @RestController
@@ -25,6 +26,7 @@ class TopicController(private val service: TopicService) {
     }
 
     @PostMapping
+    @Transactional
     fun create(
             @RequestBody @Valid form: TopicForm,
             uriBuilder: UriComponentsBuilder): ResponseEntity<TopicView>{
@@ -34,6 +36,7 @@ class TopicController(private val service: TopicService) {
     }
 
     @PutMapping("/{id}")
+    @Transactional
     fun update(
             @RequestBody @Valid form: UpdateTopicForm,
             @PathVariable id: Long): ResponseEntity<TopicView>{
@@ -42,6 +45,7 @@ class TopicController(private val service: TopicService) {
     }
 
     @DeleteMapping("/{id}")
+    @Transactional
     fun delete(@PathVariable id: Long){
         service.delete(id)
     }

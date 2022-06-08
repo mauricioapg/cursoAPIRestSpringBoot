@@ -4,10 +4,14 @@ import br.com.alura.forum.model.Category
 import br.com.alura.forum.model.Course
 import br.com.alura.forum.model.Topic
 import br.com.alura.forum.model.User
+import br.com.alura.forum.repository.CategoryRepository
+import br.com.alura.forum.repository.CourseRepository
 import org.springframework.stereotype.Service
 
 @Service
-class CategoryService(private var categories: List<Category> = ArrayList()) {
+class CategoryService(
+        private val repository: CategoryRepository,
+) {
 
 //    init {
 //        val category1 = Category(
@@ -24,20 +28,26 @@ class CategoryService(private var categories: List<Category> = ArrayList()) {
 //    }
 
     fun listAll(): List<Category> {
-        return categories
+        return repository.findAll()
     }
 
     fun listById(id: Long): Category {
-        return categories.stream().filter { c ->
-            c.id == id
-        }.findFirst().get()
+        return repository.getById(id)
     }
 
     fun create(category: Category) {
-        categories = categories.plus(Category(
-                id = categories.size.toLong() + 1,
+        println("criando categoria")
+        repository.save(Category(
+//                id = categories.size.toLong() + 1,
                 name = category.name
         ))
     }
+
+//    fun create(category: Category) {
+//        categories = categories.plus(Category(
+//                id = categories.size.toLong() + 1,
+//                name = category.name
+//        ))
+//    }
 
 }
