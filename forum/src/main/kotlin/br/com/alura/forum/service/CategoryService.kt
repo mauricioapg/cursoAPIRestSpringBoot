@@ -38,16 +38,8 @@ class CategoryService(
     fun create(category: Category) {
         println("criando categoria")
         repository.save(Category(
-//                id = categories.size.toLong() + 1,
                 name = category.name
         ))
     }
-
-//    fun create(category: Category) {
-//        categories = categories.plus(Category(
-//                id = categories.size.toLong() + 1,
-//                name = category.name
-//        ))
-//    }
 
 }

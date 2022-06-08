@@ -26,10 +26,4 @@ class CourseService(
         repository.save(course)
     }
 
-//    fun create(form: CourseForm) {
-//        val course = courseFormMapper.map(form)
-//        course.id = courses.size.toLong() + 1
-//        courses = courses.plus(course)
-//    }
-
 }

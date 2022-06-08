@@ -17,16 +17,9 @@ class UserService(
         return repository.getById(id)
     }
 
-//    fun create(form: UserForm) {
-//        val user = userFormMapper.map(form)
-//        repository.save(user)
-//    }
-
     fun create(user: User) {
         println("criando usuário")
         repository.save(User(
-//                id = users.size.toLong() + 1,
-//                id = 1,
                 name = user.name,
                 email = user.email
         ))

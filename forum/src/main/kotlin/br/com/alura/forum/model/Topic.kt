@@ -16,6 +16,6 @@ data class Topic(
         val author: User,
         @Enumerated(value = EnumType.STRING)
         val status: StatusTopic = StatusTopic.NOT_ANSWERED,
-//        @OneToMany(mappedBy = "Topic")
-        val answers: ArrayList<Answers> = ArrayList()
+        @OneToMany(mappedBy = "topic")
+        val answers: List<Answers> = ArrayList()
 )
