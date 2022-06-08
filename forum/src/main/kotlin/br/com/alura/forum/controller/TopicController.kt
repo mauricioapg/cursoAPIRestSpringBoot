@@ -4,6 +4,10 @@ import br.com.alura.forum.dto.TopicForm
 import br.com.alura.forum.dto.TopicView
 import br.com.alura.forum.dto.UpdateTopicForm
 import br.com.alura.forum.service.TopicService
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -16,8 +20,10 @@ import javax.validation.Valid
 class TopicController(private val service: TopicService) {
 
     @GetMapping
-    fun list(): List<TopicView>{
-        return service.listAll()
+    fun list(
+            @RequestParam(required = false) courseName: String?,
+            @PageableDefault(size=5, sort = ["dateCreate"], direction = Sort.Direction.DESC) pagination: Pageable): Page<TopicView>{
+        return service.listAll(courseName, pagination)
     }
 
     @GetMapping("/{id}")

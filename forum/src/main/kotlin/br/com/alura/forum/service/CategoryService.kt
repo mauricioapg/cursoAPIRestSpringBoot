@@ -13,20 +13,6 @@ class CategoryService(
         private val repository: CategoryRepository,
 ) {
 
-//    init {
-//        val category1 = Category(
-//                id = 1,
-//                name = "Front-End",
-//        )
-//
-//        val category2 = Category(
-//                id = 2,
-//                name = "Back-End",
-//        )
-//
-//        categories = listOf(category1, category2)
-//    }
-
     fun listAll(): List<Category> {
         return repository.findAll()
     }
