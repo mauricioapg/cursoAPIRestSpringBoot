@@ -3,6 +3,8 @@ package br.com.alura.forum.controller
 import br.com.alura.forum.dto.CourseForm
 import br.com.alura.forum.model.Course
 import br.com.alura.forum.service.CourseService
+import org.springframework.cache.annotation.CacheEvict
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.*
@@ -13,6 +15,7 @@ import javax.transaction.Transactional
 class CourseController(private val service: CourseService) {
 
     @GetMapping
+    @Cacheable("courses")
     fun list(
             @RequestParam(required = false) categoryName: String?,
             pagination: Pageable): Page<Course> {
@@ -26,6 +29,7 @@ class CourseController(private val service: CourseService) {
 
     @PostMapping
     @Transactional
+    @CacheEvict(value = ["courses"], allEntries = true)
     fun create(@RequestBody dto: CourseForm){
         service.create(dto)
     }
