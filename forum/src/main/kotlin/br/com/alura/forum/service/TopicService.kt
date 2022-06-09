@@ -1,5 +1,6 @@
 package br.com.alura.forum.service
 
+import br.com.alura.forum.dto.TopicByCategoryDto
 import br.com.alura.forum.dto.TopicForm
 import br.com.alura.forum.dto.TopicView
 import br.com.alura.forum.dto.UpdateTopicForm
@@ -60,5 +61,9 @@ class TopicService(
     fun delete(id: Long) {
         println("excluindo tópico")
         repository.deleteById(id)
+    }
+
+    fun report(): List<TopicByCategoryDto> {
+        return repository.report()
     }
 }

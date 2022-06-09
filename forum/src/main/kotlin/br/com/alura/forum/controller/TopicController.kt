@@ -1,5 +1,6 @@
 package br.com.alura.forum.controller
 
+import br.com.alura.forum.dto.TopicByCategoryDto
 import br.com.alura.forum.dto.TopicForm
 import br.com.alura.forum.dto.TopicView
 import br.com.alura.forum.dto.UpdateTopicForm
@@ -54,6 +55,11 @@ class TopicController(private val service: TopicService) {
     @Transactional
     fun delete(@PathVariable id: Long){
         service.delete(id)
+    }
+
+    @GetMapping("/report")
+    fun report(): List<TopicByCategoryDto>{
+        return service.report()
     }
 
 }
